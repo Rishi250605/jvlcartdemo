@@ -10,67 +10,85 @@ export  default function NewProduct () {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
+    const [sizes, setSizes] = useState([{ size: '', price: '' }]);
+    const addSizeField = () => {
+    setSizes([...sizes, { size: '', price: '' }]);
+};
+
+const handleSizeChange = (index, field, value) => {
+    const updatedSizes = [...sizes];
+    updatedSizes[index][field] = value;
+    setSizes(updatedSizes);
+};
+
+const removeSizeField = (index) => {
+    setSizes(sizes.filter((_, i) => i !== index));
+};
     const [stock, setStock] = useState(0);
-    const [seller, setSeller] = useState("");
-    const [images, setImages] = useState([]);
-    const [imagesPreview, setImagesPreview] = useState([]);
+    
+    const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+    
     
     const { loading, isProductCreated, error } = useSelector( state => state.productState)
 
-    const categories = [
-        'Electronics',
-        'Mobile Phones',
-        'Laptops',
-        'Accessories',
-        'Headphones',
-        'Food',
-        'Books',
-        'Clothes/Shoes',
-        'Beauty/Health',
-        'Sports',
-        'Outdoor',
-        'Home'
-    ];
+    const [nutrition, setNutrition] = useState({
+        energy: "",
+        carbohydrates: "",
+        protein: "",
+        fat: ""
+    });
+    
+    const handleNutritionChange = (e) => {
+        setNutrition({ ...nutrition, [e.target.name]: e.target.value });
+    };
+    
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const onImagesChange = (e) => {
-        const files = Array.from(e.target.files);
-
-        files.forEach(file => {
-            
+    const onImageChange = (e) => {
+        const file = e.target.files[0]; // Get the selected file
+    
+        if (file) {
             const reader = new FileReader();
-
-            reader.onload = () => {
-                if(reader.readyState == 2 ) {
-                    setImagesPreview(oldArray => [...oldArray, reader.result])
-                    setImages(oldArray => [...oldArray, file])
-                }
-            }
-
-            reader.readAsDataURL(file)
-
-
-        })
-
-    }
+    
+            reader.onloadend = () => {
+                setImagePreview(reader.result); // Set preview image
+                setImage(file); // Set actual file
+            };
+    
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    
 
     const submitHandler = (e) => {
         e.preventDefault();
+        console.log("Image before FormData:", image);
         const formData = new FormData();
-        formData.append('name' , name);
-        formData.append('price' , price);
-        formData.append('stock' , stock);
-        formData.append('description' , description);
-        formData.append('seller' , seller);
-        formData.append('category' , category);
-        images.forEach (image => {
-            formData.append('images', image)
-        })
-        dispatch(createNewProduct(formData))
-    }
+        console.log("Image before FormData:", image); // Check if image exists
+        formData.append('name', name);  
+        formData.append('price', price);
+        formData.append('stock', stock);
+        formData.append('description', description);
+    
+        // Append Sizes as JSON
+        formData.append('sizes', JSON.stringify(sizes));
+    
+        // Append Nutrition Info as JSON
+        formData.append('nutritionalInformation', JSON.stringify(nutrition));
+    
+        formData.append('image', image);
+        console.log("soldgolfnnaldfkgkn")
+        formData.forEach((value, key) => {
+            console.log(`SARANZ  ${key}: ${value} `);
+        });
+        
+        dispatch(createNewProduct(formData));
+    };
+    
 
     useEffect(() => {
         if(isProductCreated) {
@@ -126,6 +144,29 @@ export  default function NewProduct () {
                                 value={price}
                                 />
                             </div>
+                            <div className="form-group">
+    <label>Sizes & Prices</label>
+    {sizes.map((s, index) => (
+        <div key={index} className="d-flex mb-2">
+            <input
+                type="text"
+                className="form-control mr-2"
+                placeholder="Size"
+                value={s.size}
+                onChange={(e) => handleSizeChange(index, "size", e.target.value)}
+            />
+            <input
+                type="number"
+                className="form-control mr-2"
+                placeholder="Price"
+                value={s.price}
+                onChange={(e) => handleSizeChange(index, "price", e.target.value)}
+            />
+            <button type="button" className="btn btn-danger" onClick={() => removeSizeField(index)}>X</button>
+        </div>
+    ))}
+    <button type="button" className="btn btn-primary mt-2" onClick={addSizeField}>+ Add Size</button>
+</div>
 
                             <div className="form-group">
                                 <label htmlFor="description_field">Description</label>
@@ -138,15 +179,7 @@ export  default function NewProduct () {
                                   ></textarea>
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="category_field">Category</label>
-                                <select onChange={e => setCategory(e.target.value)} className="form-control" id="category_field">
-                                    <option value="">Select</option>
-                                    {categories.map( category => (
-                                        <option key={category} value={category}>{category}</option>
-                                    ))}
-                                </select>
-                            </div>
+                           
                             <div className="form-group">
                                 <label htmlFor="stock_field">Stock</label>
                                 <input
@@ -157,47 +190,82 @@ export  default function NewProduct () {
                                 value={stock}
                                 />
                             </div>
-
                             <div className="form-group">
-                                <label htmlFor="seller_field">Seller Name</label>
-                                <input
-                                type="text"
-                                id="seller_field"
-                                className="form-control"
-                                onChange={e => setSeller(e.target.value)}
-                                value={seller}
-                                />
-                            </div>
-                            
-                            <div className='form-group'>
-                                <label>Images</label>
-                                
-                                    <div className='custom-file'>
-                                        <input
-                                            type='file'
-                                            name='product_images'
-                                            className='custom-file-input'
-                                            id='customFile'
-                                            multiple
-                                            onChange={onImagesChange}
-                                        
-                                        />
+    <label htmlFor="energy">Energy (kcal)</label>
+    <input
+        type="number"
+        id="energy"
+        name="energy"
+        className="form-control"
+        value={nutrition.energy}
+        onChange={handleNutritionChange}
+    />
+</div>
 
-                                        <label className='custom-file-label' htmlFor='customFile'>
-                                            Choose Images
-                                        </label>
-                                    </div>
-                                    {imagesPreview.map(image => (
-                                        <img
-                                            className="mt-3 mr-2"
-                                            key={image}
-                                            src={image}
-                                            alt={`Image Preview`}
-                                            width="55"
-                                            height="52"
-                                        />
-                                    ))}
-                            </div>
+<div className="form-group">
+    <label htmlFor="carbohydrates">Carbohydrates (g)</label>
+    <input
+        type="number"
+        id="carbohydrates"
+        name="carbohydrates"
+        className="form-control"
+        value={nutrition.carbohydrates}
+        onChange={handleNutritionChange}
+    />
+</div>
+
+<div className="form-group">
+    <label htmlFor="protein">Protein (g)</label>
+    <input
+        type="number"
+        id="protein"
+        name="protein"
+        className="form-control"
+        value={nutrition.protein}
+        onChange={handleNutritionChange}
+    />
+</div>
+
+<div className="form-group">
+    <label htmlFor="fat">Fat (g)</label>
+    <input
+        type="number"
+        id="fat"
+        name="fat"
+        className="form-control"
+        value={nutrition.fat}
+        onChange={handleNutritionChange}
+    />
+</div>
+
+                            
+                            
+<div className='form-group'>
+    <label>Image</label>
+    <div className='custom-file'>
+        <input
+            type='file'
+            name='product_image'
+            className='custom-file-input'
+            id='customFile'
+            onChange={onImageChange} // Updated function
+        />
+        <label className='custom-file-label' htmlFor='customFile'>
+            Choose Image
+        </label>
+    </div>
+
+    {/* Show preview only if an image is selected */}
+    {imagePreview && (
+        <img
+            className="mt-3"
+            src={imagePreview}
+            alt="Image Preview"
+            width="55"
+            height="52"
+        />
+    )}
+</div>
 
                 
                             <button

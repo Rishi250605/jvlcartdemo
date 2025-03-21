@@ -7,7 +7,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductDetail from './components/product/ProductDetail';
-import ProductSearch from './components/product/ProductSearch';
+
 import Login from './components/user/Login';
 import Register from './components/user/Register';
 import { useEffect, useState } from 'react';
@@ -24,8 +24,7 @@ import Shipping from './components/cart/Shipping';
 import ConfirmOrder from './components/cart/ConfirmOrder';
 import Payment from './components/cart/Payment';
 import axios from 'axios';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+
 import OrderSuccess from './components/cart/OrderSuccess';
 import UserOrders from './components/order/UserOrders';
 import OrderDetail from './components/order/OrderDetail';
@@ -38,16 +37,17 @@ import UpdateOrder from './components/admin/UpdateOrder';
 import UserList from './components/admin/UserList';
 import UpdateUser from './components/admin/UpdateUser';
 import ReviewList from './components/admin/ReviewList';
+import True from './components/home/True';
 
 function App() {
-  const [stripeApiKey, setStripeApiKey] = useState("")
+  const [RZApiKey, setRZApiKey] = useState("")
   useEffect(() => {
     store.dispatch(loadUser)
-    async function getStripeApiKey(){
-      const {data} = await axios.get('/api/v1/stripeapi')
-      setStripeApiKey(data.stripeApiKey)
+    async function getRZApiKey(){
+      const {data} = await axios.get('/api/v1/RZapi')
+      setRZApiKey(data.RZApiKey)
     }
-    getStripeApiKey()
+    getRZApiKey()
   },[])
 
   return (
@@ -58,8 +58,8 @@ function App() {
                 <div className='container container-fluid'>
                   <ToastContainer theme='dark' />
                   <Routes>
-                      <Route path='/' element={<Home/>} />
-                      <Route path='/search/:keyword' element={<ProductSearch/>} />
+                      <Route path='/' element={<True/>} />
+                      <Route path='/shop' element={<Home/>} />
                       <Route path='/product/:id' element={<ProductDetail/>} />
                       <Route path='/login' element={<Login/>} />
                       <Route path='/register' element={<Register/>} />
@@ -74,7 +74,7 @@ function App() {
                       <Route path='/order/success' element={<ProtectedRoute><OrderSuccess/></ProtectedRoute> } />
                       <Route path='/orders' element={<ProtectedRoute><UserOrders/></ProtectedRoute> } />
                       <Route path='/order/:id' element={<ProtectedRoute><OrderDetail/></ProtectedRoute> } />
-                      {stripeApiKey && <Route path='/payment' element={<ProtectedRoute><Elements stripe={loadStripe(stripeApiKey)}><Payment/></Elements></ProtectedRoute> } />
+                      {RZApiKey && <Route path='/payment' element={<ProtectedRoute><Payment/></ProtectedRoute> } />
 } 
                   </Routes>
                 </div>

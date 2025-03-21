@@ -75,18 +75,20 @@ export const getAdminProducts  =  async (dispatch) => {
     
 }
 
-export const createNewProduct  =  productData => async (dispatch) => {
+export const createNewProduct = (productData) => async (dispatch) => { 
+    try {
+        dispatch(newProductRequest());
 
-    try {  
-        dispatch(newProductRequest()) 
-        const { data }  =  await axios.post(`/api/v1/admin/product/new`, productData);
-        dispatch(newProductSuccess(data))
+        console.log("Product Data Before API Call:", productData); // Debugging log
+        const { data } = await axios.post(`/api/v1/admin/product/new`, productData);
+
+        dispatch(newProductSuccess(data));
     } catch (error) {
-        //handle error
-        dispatch(newProductFail(error.response.data.message))
+        console.error("API Error Response:", error.response.data); // Debugging log
+        dispatch(newProductFail(error.response.data.message));
     }
-    
-}
+};
+
 
 export const deleteProduct  =  id => async (dispatch) => {
 
@@ -101,18 +103,43 @@ export const deleteProduct  =  id => async (dispatch) => {
     
 }
 
-export const updateProduct  =  (id, productData) => async (dispatch) => {
+export const updateProduct = (id, productData) => async (dispatch) => {
+    try {
+        dispatch(updateProductRequest());
 
-    try {  
-        dispatch(updateProductRequest()) 
-        const { data }  =  await axios.put(`/api/v1/admin/product/${id}`, productData);
-        dispatch(updateProductSuccess(data))
+        const formData = new FormData();
+        formData.append("name", productData.name);
+        formData.append("price", productData.price);
+        formData.append("stock", productData.stock);
+        formData.append("description", productData.description);
+       
+
+        // Convert sizes array to JSON before appending
+        if (productData.sizes) {
+            formData.append("sizes", JSON.stringify(productData.sizes));
+        }
+
+        // Convert nutrition object to JSON before appending
+        if (productData.nutritionalInformation) {
+            formData.append("nutritionalInformation", JSON.stringify(productData.nutritionalInformation));
+        }
+
+        // Append images if available
+        if (productData.images && productData.images.length > 0) {
+            productData.images.forEach((image) => {
+                formData.append("images", image);
+            });
+        }
+
+        const { data } = await axios.put(`/api/v1/admin/product/${id}`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        dispatch(updateProductSuccess(data));
     } catch (error) {
-        //handle error
-        dispatch(updateProductFail(error.response.data.message))
+        dispatch(updateProductFail(error.response.data.message));
     }
-    
-}
+};
 
 
 export const getReviews =  id => async (dispatch) => {

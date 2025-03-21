@@ -16,43 +16,28 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter product description"]
     },
+    nutritionalInformation: {
+        energy: { type: String, required: true },
+        carbohydrates: { type: String, required: true }, // in grams
+        protein: { type: String, required: true }, // in grams
+        fat: { type: String, required: true }, // in grams
+        
+    },
+    sizes: [{
+        size: {
+            type: String,
+            // enum: ["Small", "Medium", "Large"]
+        },
+        price: {
+            type: Number,
+            required: true
+        }
+    }],
     ratings: {
         type: String,
         default: 0
     },
-    images: [
-        {
-            image: {
-                type: String,
-                required: true
-            }
-        }
-    ],
-    category: {
-        type: String,
-        required: [true, "Please enter product category"],
-        enum: {
-            values: [
-                'Electronics',
-                'Mobile Phones',
-                'Laptops',
-                'Accessories',
-                'Headphones',
-                'Food',
-                'Books',
-                'Clothes/Shoes',
-                'Beauty/Health',
-                'Sports',
-                'Outdoor',
-                'Home'
-            ],
-            message : "Please select correct category"
-        }
-    },
-    seller: {
-        type: String,
-        required: [true, "Please enter product seller"]
-    },
+    image: { type: String, required: true },
     stock: {
         type: Number,
         required: [true, "Please enter product stock"],

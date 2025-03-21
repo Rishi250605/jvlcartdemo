@@ -16,47 +16,51 @@ const cartSlice = createSlice({
                 loading: true
             }
         },
-        addCartItemSuccess(state, action){
-            const item = action.payload
-
-            const isItemExist = state.items.find( i => i.product == item.product);
+        addCartItemSuccess(state, action) {
+            const item = action.payload;
+        
+            // Find if the item with the same product AND selected size already exists
+            const isItemExist = state.items.find(i => i.product === item.product && i.size === item.size);
             
-            if(isItemExist) {
-                state = {
-                    ...state,
-                    loading: false,
-                }
-            }else{
-                state = {
-                    items: [...state.items, item],
-                    loading: false
-                }
-                
-                localStorage.setItem('cartItems', JSON.stringify(state.items));
+            if (isItemExist) {
+                // If the item exists, update its quantity (Keep the correct price)
+                state.items = state.items.map(i =>
+                    i.product === item.product && i.size === item.size
+                        ? { ...i, quantity: i.quantity + item.quantity } 
+                        : i
+                );
+            } else {
+                // If item is new, store it with the correct price for the selected size
+                state.items.push({
+                    ...item,
+                    price: item.price // Ensure selected size’s price is stored
+                });
             }
-            return state
-            
+        
+            state.loading = false;
+            localStorage.setItem('cartItems', JSON.stringify(state.items));
         },
+        
         increaseCartItemQty(state, action) {
             state.items = state.items.map(item => {
-                if(item.product == action.payload) {
-                    item.quantity = item.quantity + 1
+                if (item.product === action.payload.product && item.size === action.payload.size) {
+                    return { ...item, quantity: item.quantity + 1 };
                 }
                 return item;
-            })
+            });
             localStorage.setItem('cartItems', JSON.stringify(state.items));
-
         },
+        
         decreaseCartItemQty(state, action) {
             state.items = state.items.map(item => {
-                if(item.product == action.payload) {
-                    item.quantity = item.quantity - 1
+                if (item.product === action.payload.product && item.size === action.payload.size) {
+                    return { ...item, quantity: Math.max(1, item.quantity - 1) };
                 }
                 return item;
-            })
+            });
             localStorage.setItem('cartItems', JSON.stringify(state.items));
-
         },
+        
         removeItemFromCart(state, action) {
             const filterItems = state.items.filter(item => {
                 return item.product !== action.payload

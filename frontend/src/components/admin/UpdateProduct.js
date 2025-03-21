@@ -20,20 +20,7 @@ export default function UpdateProduct () {
     
     const { loading, isProductUpdated, error, product } = useSelector( state => state.productState)
 
-    const categories = [
-        'Electronics',
-        'Mobile Phones',
-        'Laptops',
-        'Accessories',
-        'Headphones',
-        'Food',
-        'Books',
-        'Clothes/Shoes',
-        'Beauty/Health',
-        'Sports',
-        'Outdoor',
-        'Home'
-    ];
+    
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -168,15 +155,7 @@ export default function UpdateProduct () {
                                   ></textarea>
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="category_field">Category</label>
-                                <select value={category} onChange={e => setCategory(e.target.value)} className="form-control" id="category_field">
-                                    <option value="">Select</option>
-                                    {categories.map( category => (
-                                        <option key={category} value={category}>{category}</option>
-                                    ))}
-                                </select>
-                            </div>
+                            
                             <div className="form-group">
                                 <label htmlFor="stock_field">Stock</label>
                                 <input
