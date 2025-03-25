@@ -5,7 +5,7 @@ const APIFeatures = require('../utils/apiFeatures');
 
 //Get Products - /api/v1/products
 exports.getProducts = catchAsyncError(async (req, res, next) => {
-    const resPerPage = 3;
+    
 
     let buildQuery = () => {
         return new APIFeatures(Product.find(), req.query).search().filter()
@@ -19,12 +19,12 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
         productsCount = filteredProductsCount;
     }
 
-    const products = await buildQuery().paginate(resPerPage).query;
+    const products = await buildQuery().query;
 
     res.status(200).json({
         success: true,
         count: productsCount,
-        resPerPage,
+        
         products
     })
 })
