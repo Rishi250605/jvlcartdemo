@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.admin-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: 'Poppins', sans-serif;
+}
+
+.admin-sidebar {
+    position: fixed;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+}
+
+.admin-content {
+    margin-left: 280px;
+    padding: 2rem;
+}
+
+.new-product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.header-icon {
+    width: 32px;
+    height: 32px;
+    color: #f59e0b;
+}
+
+.page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #0f172a;
+    margin: 0;
+}
+
+.product-form {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 1200px;
+}
+
+.form-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.form-section {
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.form-section:hover {
+    transform: translateY(-2px);
+}
+
+.form-section h2 {
+    font-size: 1.25rem;
+    color: #0f172a;
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+}
+
+.form-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: #f59e0b;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.sizes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.size-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.size-row input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.remove-size {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-size:hover {
+    background: #fecaca;
+    transform: scale(1.05);
+}
+
+.add-size {
+    background: #f0fdf4;
+    color: #10b981;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.add-size:hover {
+    background: #dcfce7;
+    transform: translateY(-2px);
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.image-upload-container {
+    position: relative;
+    text-align: center;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-label:hover {
+    border-color: #f59e0b;
+    background: #fff7ed;
+}
+
+.image-preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.image-preview img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 2rem;
+    background: linear-gradient(to right, #f59e0b, #d97706);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .admin-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-sidebar {
+        display: none;
+    }
+
+    .admin-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-content {
+        padding: 1rem;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .product-form {
+        padding: 1.5rem;
+    }
+
+    .size-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nutrition-grid {
+        grid-template-columns: 1fr;
+    }
+}
