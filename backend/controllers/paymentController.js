@@ -10,23 +10,34 @@ const razorpay = new Razorpay({
 // Process Payment - Creates an order in Razorpay
 exports.processPayment = catchAsyncError(async (req, res, next) => {
     try {
+        const { amount } = req.body;
+
+        // Validate amount
+        if (!amount || isNaN(amount) || amount <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid amount"
+            });
+        }
+
         const options = {
-            amount: req.body.amount * 100, // Convert to paise (INR)
+            amount: amount * 100, // Convert INR to paise
             currency: "INR",
             receipt: `receipt_${Date.now()}`,
             payment_capture: 1
         };
 
         const order = await razorpay.orders.create(options);
-        console.log("Order Created:", order); // Debugging
+        console.log("Order Created:", order);
 
         res.status(200).json({
             success: true,
-            order_id: order.id
+            order_id: order.id,
+            amount: order.amount
         });
 
     } catch (error) {
-        console.error("Payment Error:", error); // Log error to see details
+        console.error("Payment Error:", error);
         res.status(500).json({
             success: false,
             message: "Payment processing failed",
@@ -35,10 +46,9 @@ exports.processPayment = catchAsyncError(async (req, res, next) => {
     }
 });
 
-
-// Send Razorpay API Key to Frontend
+// Send Razorpay API Key to Frontend (Ensure you're not exposing secrets)
 exports.sendRZApi = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
-        RZApiKey: process.env.RZ_API_KEY
+        RZApiKey: process.env.RZ_API_KEY // This is fine since it's a public key
     });
 });

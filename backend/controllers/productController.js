@@ -104,28 +104,57 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
 
 //Update Product - api/v1/product/:id
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
-    let product = await Product.findById(req.params.id);
-    //uploading images
-    let images = []
-
-    //if images not cleared we keep existing images
-    if (req.body.imagesCleared === 'false') {
-        images = product.images;
-    }
     let BASE_URL = process.env.BACKEND_URL;
     if (process.env.NODE_ENV === "production") {
         BASE_URL = `${req.protocol}://${req.get('host')}`
     }
+    let product = await Product.findById(req.params.id);
+    if (!product) {
+        return res.status(404).json({
+            success: false,
+            message: "Product not found"
+        });
+    }
+    console.log("🟢 Incoming price:", req.body.price, typeof req.body.price);
+    console.log("🟢 Full req.body:", req.body);
 
-    if (req.files.length > 0) {
-        req.files.forEach(file => {
-            let url = `${BASE_URL}/uploads/product/${file.originalname}`;
-            images.push({ image: url })
-        })
+        // ✅ Convert price safely
+    if (req.body.price !== undefined && req.body.price !== "undefined") {
+        const priceNum = Number(req.body.price);
+        if (isNaN(priceNum)) {
+            return next(new ErrorHandler("Invalid value for price", 400));
+        }
+        req.body.price = priceNum;
+    } else {
+        return next(new ErrorHandler("Price is required", 400));
     }
 
+    // ✅ Convert stock safely
+    if (req.body.stock !== undefined && req.body.stock !== "undefined") {
+        const stockNum = Number(req.body.stock);
+        if (isNaN(stockNum)) {
+            return next(new ErrorHandler("Invalid value for stock", 400));
+        }
+        req.body.stock = stockNum;
+    } else {
+        return next(new ErrorHandler("Stock is required", 400));
+    }
 
-    req.body.images = images;
+    
+    console.log("Update product req.body:", req.body);
+    console.log("Update product req.file:", req.file);
+
+    //uploading images
+    if (req.body.imageCleared === 'true') {
+        // User cleared the image
+        req.body.image = null;
+    } else if (req.file) {
+        // New image uploaded
+        req.body.image = `${BASE_URL}/uploads/product/${req.file.filename}`;
+    } else {
+        // Keep existing image if no new image and not cleared
+        req.body.image = product.image;
+    }
     if (req.body.sizes) {
         try {
             req.body.sizes = JSON.parse(req.body.sizes);
@@ -136,7 +165,13 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
             return next(new ErrorHandler('Invalid sizes format', 400));
         }
     }
-
+    if (req.body.nutritionalInformation) {
+        try {
+            req.body.nutritionalInformation = JSON.parse(req.body.nutritionalInformation);
+        } catch (error) {
+            return next(new ErrorHandler('Invalid nutritionalInformation format', 400));
+        }
+    }
     if (!product) {
         return res.status(404).json({
             success: false,
@@ -144,15 +179,26 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
         });
     }
 
-    product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true
-    })
-    console.log("from bk ", product);
-    res.status(200).json({
-        success: true,
-        product
-    })
+    try {
+        product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+    
+        res.status(200).json({
+            success: true,
+            product
+        });
+    
+    } catch (err) {
+        console.error("Update error:", err);
+        return res.status(400).json({
+            success: false,
+            message: err.message,
+            error: err
+        });
+    }
+    console.log("Final Payload:", req.body);
 
 })
 

@@ -1,5 +1,5 @@
 import './App.css';
-import Home from './components/Home';
+import Shop from './components/Shop/Home';
 import Footer from './components/layouts/Footer';
 import Header from './components/layouts/Header';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -7,7 +7,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductDetail from './components/product/ProductDetail';
-
+import AboutUs from './components/user/About_us';
 import Login from './components/user/Login';
 import Register from './components/user/Register';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ import ForgotPassword from './components/user/ForgotPassword';
 import ResetPassword from './components/user/ResetPassword';
 import Cart from './components/cart/Cart';
 import Shipping from './components/cart/Shipping';
-import ConfirmOrder from './components/cart/ConfirmOrder';
+import ConfirmOrder from './components/cart/Confirming';
 import Payment from './components/cart/Payment';
 import axios from 'axios';
 
@@ -37,7 +37,7 @@ import UpdateOrder from './components/admin/UpdateOrder';
 import UserList from './components/admin/UserList';
 import UpdateUser from './components/admin/UpdateUser';
 import ReviewList from './components/admin/ReviewList';
-import True from './components/home/True';
+import Home from './home/True';
 
 function App() {
   const [RZApiKey, setRZApiKey] = useState("")
@@ -58,9 +58,10 @@ function App() {
                 <div className='container container-fluid'>
                   <ToastContainer theme='dark' />
                   <Routes>
-                      <Route path='/' element={<True/>} />
-                      <Route path='/shop' element={<Home/>} />
+                      <Route path='/' element={<Home/>} />
+                      <Route path='/shop' element={<Shop/>} />
                       <Route path='/product/:id' element={<ProductDetail/>} />
+                      <Route path='/about' element={<AboutUs/>} />
                       <Route path='/login' element={<Login/>} />
                       <Route path='/register' element={<Register/>} />
                       <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute> } />

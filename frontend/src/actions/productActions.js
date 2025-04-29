@@ -103,33 +103,9 @@ export const deleteProduct  =  id => async (dispatch) => {
     
 }
 
-export const updateProduct = (id, productData) => async (dispatch) => {
+export const updateProduct = (id, formData) => async (dispatch) => {
     try {
         dispatch(updateProductRequest());
-
-        const formData = new FormData();
-        formData.append("name", productData.name);
-        formData.append("price", productData.price);
-        formData.append("stock", productData.stock);
-        formData.append("description", productData.description);
-       
-
-        // Convert sizes array to JSON before appending
-        if (productData.sizes) {
-            formData.append("sizes", JSON.stringify(productData.sizes));
-        }
-
-        // Convert nutrition object to JSON before appending
-        if (productData.nutritionalInformation) {
-            formData.append("nutritionalInformation", JSON.stringify(productData.nutritionalInformation));
-        }
-
-        // Append images if available
-        if (productData.images && productData.images.length > 0) {
-            productData.images.forEach((image) => {
-                formData.append("images", image);
-            });
-        }
 
         const { data } = await axios.put(`/api/v1/admin/product/${id}`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
@@ -137,9 +113,9 @@ export const updateProduct = (id, productData) => async (dispatch) => {
 
         dispatch(updateProductSuccess(data));
     } catch (error) {
-        dispatch(updateProductFail(error.response.data.message));
+        dispatch(updateProductFail(error.response?.data?.message || "Update failed"));
     }
-};
+};      
 
 
 export const getReviews =  id => async (dispatch) => {

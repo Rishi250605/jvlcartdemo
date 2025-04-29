@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.product-card {
+    background: rgb(191, 11, 11);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #f1f5f9;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.product-card:hover .product-info .product-infing {
+    transform: translateY(-21px);
+    transition: 0.4s;
+}
+
+.out-of-stock-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: #ef4444;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    z-index: 10;
+}
+
+.product-image-container {
+    position: relative;
+    height: 240px;
+    background-color: #fdfdfd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow: hidden;
+}
+
+.product-image-container::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.product-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1;
+    transition: transform 0.3s ease;
+    background: rgba(242, 240, 240, 0);
+    position: relative;
+    z-index: 2;
+    margin-top: 20px;
+}
+
+.product-name {
+    font-family: 'Playfair Display', serif;
+    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.product-name:hover {
+    color: #f59e0b;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stars {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.star-icon {
+    color: #e2e8f0;
+    transition: color 0.3s ease;
+}
+
+.star-icon.filled {
+    color: #f59e0b;
+}
+
+.rating-count {
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    font-family: 'Playfair Display', serif;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-price {
+    transform: translateY(-10px);
+}
+
+.product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: auto;
+    transition: transform 0.3s ease;
+}
+
+.add-to-cart-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(to right, #f59e0b, #d97706);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.add-to-cart-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.view-details-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.view-details-button:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #f59e0b;
+}
+
+@media (max-width: 640px) {
+    .product-image-container {
+        height: 200px;
+        padding: 1.5rem;
+    }
+
+    .product-info {
+        padding: 1.25rem;
+    }
+
+    .product-name {
+        font-size: 1.125rem;
+    }
+
+    .product-price {
+        font-size: 1.25rem;
+    }
+}

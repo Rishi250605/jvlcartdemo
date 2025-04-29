@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-sidebar {
+    position: fixed;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    z-index: 10;
+}
+
+.dashboard-content {
+    margin-top: 60px;
+    margin-left: 280px;
+    padding: 2rem;
+    width: 1200px;
+    min-height: 90vh;
+}
+
+.dashboard-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.header-subtitle {
+    color: #64748b;
+    margin: 0.5rem 0 0 0;
+    font-size: 1.1rem;
+}
+
+.revenue-card {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    color: white;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.15);
+    width: 100%;
+}
+
+.revenue-icon {
+    background: rgba(255, 255, 255, 0.2);
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.revenue-details {
+    flex: 1;
+}
+
+.revenue-details h3 {
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 500;
+}
+
+.revenue-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.revenue-period {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.stat-card.products .stat-icon {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.stat-card.orders .stat-icon {
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+.stat-card.users .stat-icon {
+    background-color: #d1fae5;
+    color: #059669;
+}
+
+.stat-card.out-of-stock .stat-icon {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.stat-details {
+    flex: 1;
+}
+
+.stat-details h3 {
+    color: #64748b;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
+}
+
+.stat-value {
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.stat-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: #2563eb;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.stat-card:hover .stat-action {
+    color: #1d4ed8;
+}
+
+@media (max-width: 1280px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-sidebar {
+        display: none;
+    }
+
+    .dashboard-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .revenue-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header h1 {
+        font-size: 2rem;
+    }
+
+    .revenue-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .revenue-details {
+        text-align: center;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-content {
+        padding: 1rem;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .header-subtitle {
+        font-size: 1rem;
+    }
+
+    .revenue-amount {
+        font-size: 2rem;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+    }
+
+    .revenue-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .stat-action {
+        font-size: 0.85rem;
+    }
+}

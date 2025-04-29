@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.userList_mainWrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+}
+
+.userList_sidebarContainer {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.userList_contentWrapper {
+    flex: 1;
+    padding: 2rem;
+    margin-top: 80px;
+}
+
+.userList_pageHeader {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.userList_headerContent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.userList_headerIcon {
+    color: #f59e0b;
+}
+
+.userList_pageHeader h1 {
+    color: #2d3748;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.userList_userCount {
+    color: #4a5568;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.userList_userCount span {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.userList_contentCard {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    
+}
+
+.userList_table {
+    margin-top: 1rem;
+    
+}
+
+.userList_table thead th {
+    background: #f8fafc;
+    color: #4a5568;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.userList_table tbody td {
+    padding: 1rem;
+    color: #4a5568;
+    vertical-align: middle;
+}
+
+.userList_roleBadge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.userList_roleBadge.admin {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+}
+
+.userList_roleBadge.user {
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+}
+
+.userList_actionButtons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-start;
+}
+
+.userList_editBtn,
+.userList_deleteBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.userList_editBtn {
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+}
+
+.userList_editBtn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+.userList_deleteBtn {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.userList_deleteBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-2px);
+}
+
+.userList_loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+@media (max-width: 1024px) {
+    .userList_contentWrapper {
+        margin-left: 240px;
+    }
+    
+    .userList_sidebarContainer {
+        width: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .userList_mainWrapper {
+        flex-direction: column;
+    }
+
+    .userList_contentWrapper {
+        margin-left: 0;
+        padding: 1rem;
+    }
+
+    .userList_sidebarContainer {
+        width: 100%;
+    }
+
+    .userList_pageHeader {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .userList_headerContent {
+        justify-content: center;
+    }
+
+    .userList_contentCard {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .userList_pageHeader h1 {
+        font-size: 1.5rem;
+    }
+
+    .userList_table {
+        font-size: 0.875rem;
+    }
+}

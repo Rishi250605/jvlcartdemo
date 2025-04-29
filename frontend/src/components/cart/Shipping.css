@@ -1,0 +1,183 @@
+/* Shipping Page Layout */
+.shipping-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 110px auto 0;
+  padding: 0 20px 60px;
+  position: relative;
+}
+
+.shipping-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* Shipping Card */
+.shipping-card {
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 32px;
+}
+
+.shipping-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.shipping-header svg {
+  color: #3b82f6;
+}
+
+.shipping-header h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Form Styles */
+.shipping-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  gap: 12px;
+  
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  color: #64748b;
+  margin-top: 18px;
+  
+}
+
+.input-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 20px;
+}
+
+.input-container label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-left: 27px;
+}
+
+.input-container input,
+.input-container select {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #3e516e;
+  transition: all 0.2s ease;
+  margin-left: 22px;
+}
+
+.input-container input:focus,
+.input-container select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-container input::placeholder {
+  color: #94a3b8;
+}
+
+/* Submit Button */
+.submit-button {
+  margin-top: 16px;
+  padding: 14px 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .shipping-page {
+      margin-top: 90px;
+  }
+
+  .shipping-card {
+      padding: 24px;
+  }
+
+  .shipping-header h1 {
+      font-size: 1.5rem;
+  }
+
+  .form-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shipping-page {
+      margin-top: 70px;
+      padding: 0 12px 40px;
+  }
+
+  .shipping-card {
+      padding: 20px;
+  }
+
+  .shipping-header {
+      margin-bottom: 24px;
+  }
+
+  .form-group {
+      flex-direction: column;
+      gap: 8px;
+  }
+
+  .input-icon {
+      margin-top: 0;
+      margin-bottom: -24px;
+      margin-left: 12px;
+  }
+
+  .submit-button {
+      padding: 12px 20px;
+  }
+}

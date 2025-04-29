@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Search as SearchIcon } from 'lucide-react';
+import './Search.css';
 
-export default function Search () {
-
+export default function Search() {
     const navigate = useNavigate();
     const location = useLocation();
-    const [keyword, setKeyword] = useState("")
+    const [keyword, setKeyword] = useState("");
 
     const searchHandler = (e) => {
         e.preventDefault();
-        navigate(`/search/${keyword}`)
-
+        navigate(`/search/${keyword}`);
     }
 
-    const clearKeyword = () =>{
+    const clearKeyword = () => {
         setKeyword("");
     }
 
@@ -21,24 +21,22 @@ export default function Search () {
         if(location.pathname === '/') {
             clearKeyword();
         }
-    },[location])
+    }, [location])
 
     return (
-        <form onSubmit={searchHandler}>
-            <div className="input-group">
+        <form onSubmit={searchHandler} className="searchBar_container">
+            <div className="searchBar_inputGroup">
                 <input
-                type="text"
-                id="search_field"
-                className="form-control"
-                placeholder="Enter Product Name ..."
-                onChange={(e)=>{ setKeyword(e.target.value) }}
-                value={keyword}
+                    type="text"
+                    id="search_field"
+                    className="searchBar_input"
+                    placeholder="Search for products..."
+                    onChange={(e) => setKeyword(e.target.value)}
+                    value={keyword}
                 />
-                <div className="input-group-append">
-                <button id="search_btn" className="btn">
-                    <i className="fa fa-search" aria-hidden="true"></i>
+                <button type="submit" className="searchBar_button">
+                    <SearchIcon size={20} />
                 </button>
-                </div>
             </div>
         </form>
     )

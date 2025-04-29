@@ -1,38 +1,85 @@
-import {useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { User, Mail, Calendar, Package, Key, Edit } from 'lucide-react';
+import './Profile.css';
 
-export default function Profile () {
-    const { user }  = useSelector(state => state.authState);
+export default function Profile() {
+    const { user } = useSelector(state => state.authState);
 
     return (
-        <div className="row justify-content-around mt-5 user-info">
-            <div className="col-12 col-md-3">
-                <figure className='avatar avatar-profile'>
-                    <img className="rounded-circle img-fluid" src={user.avatar??'./images/default_avatar.png'} alt='' />
-                </figure>
-                <Link to="/myprofile/update" id="edit_profile" className="btn btn-primary btn-block my-5">
-                    Edit Profile
-                </Link>
-            </div>
-    
-            <div className="col-12 col-md-5">
-                <h4>Full Name</h4>
-                <p>{user.name}</p>
-    
-                <h4>Email Address</h4>
-                <p>{user.email}</p>
+        <div className="profile-wrapper">
+            <div className="profile-container">
+                <h1 className="profile-title">My Profile</h1>
+                
+                <div className="profile-content">
+                    <div className="profile-sidebar">
+                        <div className="avatar-container">
+                            <img 
+                                src={user.avatar ?? './images/default_avatar.png'} 
+                                alt="Profile" 
+                                className="profile-avatar" 
+                            />
+                            <Link to="/myprofile/update" className="edit-avatar-btn">
+                                <Edit className="btn-icon" />
+                                Edit Profile
+                            </Link>
+                        </div>
 
-                <h4>Joined</h4>
-                <p>{String(user.createdAt).substring(0, 10)}</p>
+                        <div className="profile-actions">
+                            <Link to="/orders" className="action-btn orders-btn">
+                                <Package className="btn-icon" />
+                                My Orders
+                            </Link>
+                            <Link to="/myprofile/update/password" className="action-btn password-btn">
+                                <Key className="btn-icon" />
+                                Change Password
+                            </Link>
+                        </div>
+                    </div>
 
-                <Link to="/orders" className="btn btn-danger btn-block mt-5">
-                    My Orders
-                </Link>
+                    <div className="profile-details">
+                        <div className="info-card">
+                            <div className="info-header">
+                                <User className="info-icon" />
+                                <h3>Personal Information</h3>
+                            </div>
+                            <div className="info-content">
+                                <div className="info-item">
+                                    <label>Full Name</label>
+                                    <p>{user.name}</p>
+                                </div>
+                                <div className="info-item">
+                                    <label>Email Address</label>
+                                    <p>{user.email}</p>
+                                </div>
+                                <div className="info-item">
+                                    <label>Member Since</label>
+                                    <p>{String(user.createdAt).substring(0, 10)}</p>
+                                </div>
+                            </div>
+                        </div>
 
-                <Link to="/myprofile/update/password" className="btn btn-primary btn-block mt-3">
-                    Change Password
-                </Link>
+                        <div className="stats-grid">
+                            <div className="stat-card">
+                                <Mail className="stat-icon" />
+                                <div className="stat-info">
+                                    <span className="stat-label">Email Status</span>
+                                    <span className="stat-value">Verified</span>
+                                </div>
+                            </div>
+                            <div className="stat-card">
+                                <Calendar className="stat-icon" />
+                                <div className="stat-info">
+                                    <span className="stat-label">Account Age</span>
+                                    <span className="stat-value">
+                                        {Math.floor((new Date() - new Date(user.createdAt)) / (1000 * 60 * 60 * 24))} days
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    )
+    );
 }

@@ -6,16 +6,15 @@ import { orderDetail as orderDetailAction, updateOrder } from "../../actions/ord
 import { toast } from "react-toastify";
 import { clearOrderUpdated, clearError } from "../../slices/orderSlice";
 import { Link } from "react-router-dom";
+import { Package, Truck, Check, User, Phone, MapPin, DollarSign } from 'lucide-react';
+import './UpdateOrder.css';
 
-export default function UpdateOrder () {
-    
-    
-    const { loading, isOrderUpdated, error, orderDetail } = useSelector( state => state.orderState)
+export default function UpdateOrder() {
+    const { loading, isOrderUpdated, error, orderDetail } = useSelector(state => state.orderState)
     const { user = {}, orderItems = [], shippingInfo = {}, totalPrice = 0, paymentInfo = {}} = orderDetail;
-    const isPaid = paymentInfo.status === 'succeeded'? true: false;
+    const isPaid = paymentInfo.status === 'Success' ? true : false;
     const [orderStatus, setOrderStatus] = useState("Processing");
     const { id:orderId } = useParams();
-
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -29,16 +28,15 @@ export default function UpdateOrder () {
     
     useEffect(() => {
         if(isOrderUpdated) {
-            toast('Order Updated Succesfully!',{
+            toast('Order Updated Successfully!', {
                 type: 'success',
                 position: toast.POSITION.BOTTOM_CENTER,
                 onOpen: () => dispatch(clearOrderUpdated())
             })
-           
             return;
         }
 
-        if(error)  {
+        if(error) {
             toast(error, {
                 position: toast.POSITION.BOTTOM_CENTER,
                 type: 'error',
@@ -50,98 +48,112 @@ export default function UpdateOrder () {
         dispatch(orderDetailAction(orderId))
     }, [isOrderUpdated, error, dispatch])
 
-
     useEffect(() => {
         if(orderDetail._id) {
             setOrderStatus(orderDetail.orderStatus);
         }
     },[orderDetail])
 
+    const getStatusIcon = (status) => {
+        switch(status) {
+            case 'Processing': return <Package className="status-icon processing" />;
+            case 'Shipped': return <Truck className="status-icon shipped" />;
+            case 'Delivered': return <Check className="status-icon delivered" />;
+            default: return <Package className="status-icon" />;
+        }
+    };
 
     return (
-        <div className="row">
-            <div className="col-12 col-md-2">
-                    <Sidebar/>
+        <div className="update-order-container">
+            <div className="sidebar-container">
+                <Sidebar/>
             </div>
-            <div className="col-12 col-md-10">
-                <Fragment>
-                <div className="row d-flex justify-content-around">
-                        <div className="col-12 col-lg-8 mt-5 order-details">
-    
-                            <h1 className="my-5">Order # {orderDetail._id}</h1>
-    
-                            <h4 className="mb-4">Shipping Info</h4>
-                            <p><b>Name:</b> {user.name}</p>
-                            <p><b>Phone:</b> {shippingInfo.phoneNo}</p>
-                            <p className="mb-4"><b>Address:</b>{shippingInfo.address}, {shippingInfo.city}, {shippingInfo.postalCode}, {shippingInfo.state}, {shippingInfo.country}</p>
-                            <p><b>Amount:</b> ${totalPrice}</p>
-    
-                            <hr />
-    
-                            <h4 className="my-4">Payment</h4>
-                            <p className={isPaid ? 'greenColor' : 'redColor' } ><b>{isPaid ? 'PAID' : 'NOT PAID' }</b></p>
-    
-    
-                            <h4 className="my-4">Order Status:</h4>
-                            <p className={orderStatus&&orderStatus.includes('Delivered') ? 'greenColor' : 'redColor' } ><b>{orderStatus}</b></p>
-    
-    
-                            <h4 className="my-4">Order Items:</h4>
-    
-                            <hr />
-                            <div className="cart-item my-1">
-                                {orderItems && orderItems.map(item => (
-                                    <div className="row my-5">
-                                        <div className="col-4 col-lg-2">
-                                            <img src={item.image} alt={item.name} height="45" width="65" />
-                                        </div>
+            <div className="order-content">
+                <div className="order-details-container">
+                    <div className="order-info-section">
+                        <h1>Order #{orderDetail._id}</h1>
+                        
+                        <div className="info-card shipping-info">
+                            <h4>Shipping Information</h4>
+                            <div className="info-item">
+                                <User size={18} />
+                                <p><b>Name:</b> {user.name}</p>
+                            </div>
+                            <div className="info-item">
+                                <Phone size={18} />
+                                <p><b>Phone:</b> {shippingInfo.phoneNo}</p>
+                            </div>
+                            <p className="mb-4"><b>Address:</b>{shippingInfo.address},{shippingInfo.addressline}, {shippingInfo.city}, {shippingInfo.postalCode}, {shippingInfo.state}, {shippingInfo.country}</p>
+                            <div className="info-item">
+                                <MapPin size={18} />
+                                <p><b>Address:</b> {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.postalCode}, {shippingInfo.state}, {shippingInfo.country}</p>
+                            </div>
+                            <div className="info-item">
+                                <DollarSign size={18} />
+                                <p><b>Amount:</b> ${totalPrice}</p>
+                            </div>
+                        </div>
 
-                                        <div className="col-5 col-lg-5">
-                                            <Link to={`/product/${item.product}`}>{item.name}</Link>
-                                        </div>
+                        <div className="info-card payment-info">
+                            <h4>Payment Status</h4>
+                            <div className={`payment-status ${isPaid ? 'paid' : 'unpaid'}`}>
+                                {isPaid ? 'PAID' : 'NOT PAID'}
+                            </div>
+                        </div>
 
+                        <div className="info-card order-status">
+                            <h4>Current Status</h4>
+                            <div className={`status-badge ${orderStatus.toLowerCase()}`}>
+                                {getStatusIcon(orderStatus)}
+                                <span>{orderStatus}</span>
+                            </div>
+                        </div>
 
-                                        <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                                            <p>${item.price}</p>
-                                        </div>
-
-                                        <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                                            <p>{item.quantity} Piece(s)</p>
+                        <div className="info-card order-items">
+                            <h4>Order Items</h4>
+                            {orderItems && orderItems.map(item => (
+                                <div className="order-item" key={item.product}>
+                                    <div className="item-image">
+                                        <img src={item.image} alt={item.name} />
+                                    </div>
+                                    <div className="item-details">
+                                        <Link to={`/product/${item.product}`} className="item-name">
+                                            {item.name}
+                                        </Link>
+                                        <div className="item-info">
+                                            <span className="item-price">${item.price}</span>
+                                            <span className="item-quantity">{item.quantity} Piece(s)</span>
                                         </div>
                                     </div>
-                                ))}
-                                    
-                            </div>
-                            <hr />
+                                </div>
+                            ))}
                         </div>
-                        <div className="col-12 col-lg-3 mt-5">
-                            <h4 className="my-4">Order Status</h4>
-                            <div className="form-group">
-                                <select 
-                                className="form-control"
+                    </div>
+
+                    <div className="update-status-section">
+                        <div className="status-update-card">
+                            <h4>Update Order Status</h4>
+                            <select 
+                                className="status-select"
                                 onChange={e => setOrderStatus(e.target.value)}
                                 value={orderStatus}
                                 name="status"
-                                >
-                                    <option value="Processing">Processing</option>
-                                    <option value="Shipped">Shipped</option>
-                                    <option value="Delivered">Delivered</option>
-                                </select>
-                              
-                            </div>
+                            >
+                                <option value="Processing">Processing</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
                             <button
                                 disabled={loading}
                                 onClick={submitHandler}
-                                className="btn btn-primary btn-block"
-                                >
-                                    Update Status
+                                className="update-button"
+                            >
+                                {loading ? 'Updating...' : 'Update Status'}
                             </button>
-
                         </div>
                     </div>
-                </Fragment>
+                </div>
             </div>
         </div>
-        
     )
 }

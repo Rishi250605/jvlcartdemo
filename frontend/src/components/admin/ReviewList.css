@@ -1,0 +1,235 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.sidebar-container {
+  background: white;
+  border-right: 1px solid #e2e8f0;
+}
+
+.content-container {
+  padding: 2rem;
+  width: 1200px;
+  margin-left: 10px;
+}
+
+.review-list-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.page-header h1 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.search-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.search-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.input-wrapper input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-btn:hover {
+  background: #2563eb;
+}
+
+.search-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.reviews-table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.reviews-table {
+  margin: 0;
+}
+
+/* Custom styling for MDBDataTable */
+.reviews-table .table {
+  margin-bottom: 0;
+}
+
+.reviews-table th {
+  background-color: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 1rem;
+}
+
+.reviews-table td {
+  padding: 1rem;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.reviews-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Review Rating Display */
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.rating-stars {
+  position: relative;
+  width: 100px;
+  height: 20px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rating-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(to right, #f59e0b, #d97706);
+}
+
+/* Delete Button */
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #fee2e2;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .admin-layout {
+      grid-template-columns: 220px 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+      grid-template-columns: 1fr;
+  }
+
+  .sidebar-container {
+      display: none;
+  }
+
+  .content-container {
+      padding: 1rem;
+  }
+
+  .input-wrapper {
+      flex-direction: column;
+  }
+
+  .search-btn {
+      width: 100%;
+      justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+      font-size: 1.5rem;
+  }
+
+  .reviews-table th,
+  .reviews-table td {
+      padding: 0.75rem;
+  }
+
+  .review-rating {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+  }
+}
